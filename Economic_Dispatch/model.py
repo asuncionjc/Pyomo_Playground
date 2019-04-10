@@ -61,41 +61,41 @@ def create_model():
     #                                        m.indexes_time_periods,
     #                                        rule = power_balance)
 
-def lower_bound_flow(m,
-                     line,
-                     time_period):
-    constraint = m.flow[line, time_period] >= - maximum_flow[line - 1, time_period - 1]
-    return(constraint)
-m.lower_bound_flow_constraint = Constraint(m.indexes_lines,
-                                           m.indexes_time_periods,
-                                           rule = lower_bound_flow)
-
-def upper_bound_flow(m,
-                     line,
-                     time_period):
-    constraint = m.flow[line, time_period] <= maximum_flow[line - 1, time_period - 1]
-    return(constraint)
-m.upper_bound_flow_constraint = Constraint(m.indexes_lines,
-                                           m.indexes_time_periods,
-                                           rule = upper_bound_flow)
-
-def lower_bound_ramping(m,
-                        generating_unit,
-                        time_period):
-    constraint = m.power_generating_units[generating_unit, time_period] - m.power_generating_units[generating_unit, time_period - 1] >= lower_bound_ramping[generating_unit - 1]
-    return(constraint)
-m.lower_bound_ramping_constraint = Constraint(m.indexes_generating_units,
-                                              m.indexes_time_periods_except_first,
-                                              rule = lower_bound_ramping)
-
-def upper_bound_ramping(model,
-                        generating_unit,
-                        time_period):
-    constraint = m.power_generating_units[generating_unit, time_period] - m.power_generating_units[generating_unit, time_period - 1] <= upper_bound_ramping[generating_unit - 1]
-    return(constraint)
-m.upper_bound_ramping_constraint = Constraint(m.indexes_generating_units,
-                                              m.indexes_time_periods_except_first,
-                                              rule = upper_bound_ramping)
+    def lower_bound_flow(m,
+                         line,
+                         time_period):
+        constraint = m.flow[line, time_period] >= - maximum_flow[line - 1, time_period - 1]
+        return(constraint)
+    m.lower_bound_flow_constraint = Constraint(m.indexes_lines,
+                                               m.indexes_time_periods,
+                                               rule = lower_bound_flow)
+    
+    def upper_bound_flow(m,
+                         line,
+                         time_period):
+        constraint = m.flow[line, time_period] <= maximum_flow[line - 1, time_period - 1]
+        return(constraint)
+    m.upper_bound_flow_constraint = Constraint(m.indexes_lines,
+                                               m.indexes_time_periods,
+                                               rule = upper_bound_flow)
+    
+    def lower_bound_ramping(m,
+                            generating_unit,
+                            time_period):
+        constraint = m.power_generating_units[generating_unit, time_period] - m.power_generating_units[generating_unit, time_period - 1] >= lower_bound_ramping[generating_unit - 1]
+        return(constraint)
+    m.lower_bound_ramping_constraint = Constraint(m.indexes_generating_units,
+                                                  m.indexes_time_periods_except_first,
+                                                  rule = lower_bound_ramping)
+    
+    def upper_bound_ramping(model,
+                            generating_unit,
+                            time_period):
+        constraint = m.power_generating_units[generating_unit, time_period] - m.power_generating_units[generating_unit, time_period - 1] <= upper_bound_ramping[generating_unit - 1]
+        return(constraint)
+    m.upper_bound_ramping_constraint = Constraint(m.indexes_generating_units,
+                                                  m.indexes_time_periods_except_first,
+                                                  rule = upper_bound_ramping)
 
     return m
 
