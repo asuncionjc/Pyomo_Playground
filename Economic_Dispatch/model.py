@@ -10,6 +10,8 @@ from pyomo.environ import *
 
 model = AbstractModel()
 
+Estoy enseñando a Miguel Angel
+
 #Parameters
 
 model.number_of_time_periods = Param(within = NonNegativeIntegers)
