@@ -25,5 +25,7 @@ solver = SolverFactory("cplex")
 path_instance = "/".join([path,"data.dat"])
 instance = model.create_instance(path_instance)
 
+instance.pprint()
+
 results = opt.solve(instance,
                     tee = True)
