@@ -8,7 +8,17 @@ Created on Wed Apr 10 09:12:06 2019
 from __future__ import division
 import pyomo.environ as pe
 
-def create_model():
+def create_model(number_of_time_periods,
+                 number_of_generating_units,
+                 number_of_nodes,
+                 number_of_lines,
+                 generating_units_cost,
+                 demand,
+                 lower_bound_power,
+                 upper_bound_power,
+                 maximum_flow,
+                 lower_bound_ramping,
+                 upper_bound_ramping):
     m = pe.ConcreteModel()
     
     # Sets
@@ -27,7 +37,7 @@ def create_model():
     
     # Objective function
     def total_generating_cost(m):
-    objective_value = sum(sum(generating_units_cost[generating_unit - 1]*m.power_generating_units[generating_unit, time_period] for generating_unit in m.indexes_generating_units) for time_period in m.indexes_time_periods)
+        objective_value = sum(sum(generating_units_cost[generating_unit - 1]*m.power_generating_units[generating_unit, time_period] for generating_unit in m.indexes_generating_units) for time_period in m.indexes_time_periods)
     return objective_value
 
     m.OBJ = Objective(rule = total_generating_cost,
@@ -38,7 +48,7 @@ def create_model():
     def lower_bound_generating_power(m,
                                      generating_unit,
                                      time_period):
-    constraint = m.power_generating_units[generating_unit, time_period] >= lower_bound_power[generating_unit - 1]
+        constraint = m.power_generating_units[generating_unit, time_period] >= lower_bound_power[generating_unit - 1]
     return(constraint)
     m.lower_bound_generating_power_constraint = Constraint(m.indexes_generating_units,
                                                            m.indexes_time_periods,
@@ -47,7 +57,7 @@ def create_model():
     def upper_bound_generating_power(m,
                                      generating_unit,
                                      time_period):
-    constraint = m.power_generating_units[generating_unit, time_period] <= upper_bound_power[generating_unit - 1]
+        constraint = m.power_generating_units[generating_unit, time_period] <= upper_bound_power[generating_unit - 1]
     return(constraint)
     m.upper_bound_generating_power_constraint = Constraint(m.indexes_generating_units,
                                                            m.indexes_time_periods,
