@@ -8,6 +8,8 @@ Created on Tue Apr  9 16:59:09 2019
 from __future__ import division
 from pyomo.environ import *
 from pyomo.opt import SolverFactory
+import pyomo.environ as pe
+
 
 # Extra packages
 import os
