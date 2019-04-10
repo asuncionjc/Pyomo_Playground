@@ -34,3 +34,24 @@ model = create_model(number_of_time_periods,
 solver = SolverFactory("cplex")
 results = solver.solve(model,
                       tee = True)
+
+results_file = open('results.csv', 'w')
+results_file.write("generating unit, time_period, generation_unit_power" + "\n")
+for generation_unit in model.indexes_generating_units:
+    for time_period in model.indexes_time_periods:
+        results_file.write(str(generation_unit) + "," + str(time_period) + "\n")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
