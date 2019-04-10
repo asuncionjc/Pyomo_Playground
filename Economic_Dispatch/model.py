@@ -37,10 +37,10 @@ def create_model(number_of_time_periods,
     
     # Objective function
     def total_generating_cost(m):
-        objective_value = sum(sum(generating_units_cost[generating_unit - 1]*m.power_generating_units[generating_unit, time_period] for generating_unit in m.indexes_generating_units) for time_period in m.indexes_time_periods)
-    return objective_value
+        return sum(sum(generating_units_cost[generating_unit - 1]*m.power_generating_units[generating_unit, time_period] for generating_unit in m.indexes_generating_units) for time_period in m.indexes_time_periods)
+     
 
-    m.OBJ = Objective(rule = total_generating_cost,
+    m.OBJ = pe.Objective(rule = total_generating_cost,
                       sense = pe.minimize)
     
     # Constraints
@@ -48,18 +48,18 @@ def create_model(number_of_time_periods,
     def lower_bound_generating_power(m,
                                      generating_unit,
                                      time_period):
-        constraint = m.power_generating_units[generating_unit, time_period] >= lower_bound_power[generating_unit - 1]
-    return(constraint)
-    m.lower_bound_generating_power_constraint = Constraint(m.indexes_generating_units,
+        return m.power_generating_units[generating_unit, time_period] >= lower_bound_power[generating_unit - 1]
+    
+    m.lower_bound_generating_power_constraint = pe.Constraint(m.indexes_generating_units,
                                                            m.indexes_time_periods,
                                                            rule = lower_bound_generating_power)
 
     def upper_bound_generating_power(m,
                                      generating_unit,
                                      time_period):
-        constraint = m.power_generating_units[generating_unit, time_period] <= upper_bound_power[generating_unit - 1]
-    return(constraint)
-    m.upper_bound_generating_power_constraint = Constraint(m.indexes_generating_units,
+        return m.power_generating_units[generating_unit, time_period] <= upper_bound_power[generating_unit - 1]
+    
+    m.upper_bound_generating_power_constraint = pe.Constraint(m.indexes_generating_units,
                                                            m.indexes_time_periods,
                                                            rule = upper_bound_generating_power)
     #def power_balance(m,
@@ -74,39 +74,37 @@ def create_model(number_of_time_periods,
     def lower_bound_flow(m,
                          line,
                          time_period):
-        constraint = m.flow[line, time_period] >= - maximum_flow[line - 1, time_period - 1]
-        return(constraint)
-    m.lower_bound_flow_constraint = Constraint(m.indexes_lines,
+        return m.flow[line, time_period] >= - maximum_flow[line - 1, time_period - 1]
+    m.lower_bound_flow_constraint = pe.Constraint(m.indexes_lines,
                                                m.indexes_time_periods,
                                                rule = lower_bound_flow)
     
     def upper_bound_flow(m,
                          line,
                          time_period):
-        constraint = m.flow[line, time_period] <= maximum_flow[line - 1, time_period - 1]
-        return(constraint)
-    m.upper_bound_flow_constraint = Constraint(m.indexes_lines,
+      return m.flow[line, time_period] <= maximum_flow[line - 1, time_period - 1]
+    m.upper_bound_flow_constraint = pe.Constraint(m.indexes_lines,
                                                m.indexes_time_periods,
                                                rule = upper_bound_flow)
     
     def lower_bound_ramping(m,
                             generating_unit,
                             time_period):
-        constraint = m.power_generating_units[generating_unit, time_period] - m.power_generating_units[generating_unit, time_period - 1] >= lower_bound_ramping[generating_unit - 1]
-        return(constraint)
-    m.lower_bound_ramping_constraint = Constraint(m.indexes_generating_units,
-                                                  m.indexes_time_periods_except_first,
-                                                  rule = lower_bound_ramping)
+        return m.power_generating_units[generating_unit, time_period] - m.power_generating_units[generating_unit, time_period - 1] >= lower_bound_ramping[generating_unit - 1]
+    m.lower_bound_ramping_constraint = pe.Constraint(m.indexes_generating_units,
+                                                     m.indexes_time_periods_except_first,
+                                                     rule = lower_bound_ramping)
     
-    def upper_bound_ramping(model,
-                            generating_unit,
-                            time_period):
-        constraint = m.power_generating_units[generating_unit, time_period] - m.power_generating_units[generating_unit, time_period - 1] <= upper_bound_ramping[generating_unit - 1]
-        return(constraint)
-    m.upper_bound_ramping_constraint = Constraint(m.indexes_generating_units,
-                                                  m.indexes_time_periods_except_first,
-                                                  rule = upper_bound_ramping)
-
+# =============================================================================
+#     def upper_bound_ramping(model,
+#                             generating_unit,
+#                             time_period):
+#         return m.power_generating_units[generating_unit, time_period] - m.power_generating_units[generating_unit, time_period - 1] <= upper_bound_ramping[generating_unit - 1]
+#     m.upper_bound_ramping_constraint = pe.Constraint(m.indexes_generating_units,
+#                                                   m.indexes_time_periods_except_first,
+#                                                   rule = upper_bound_ramping)
+# 
+# =============================================================================
     return m
 
 
