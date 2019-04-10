@@ -18,8 +18,7 @@ import os
 path = 'C:/Users/Asun/Github/Pyomo_Playground/Economic_Dispatch'
 os.chdir(path)
 
-#Load the model
-
+from data import *
 from model import model
 
 solver = SolverFactory("cplex")
