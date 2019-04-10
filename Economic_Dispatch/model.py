@@ -86,25 +86,23 @@ def create_model(number_of_time_periods,
     m.upper_bound_flow_constraint = pe.Constraint(m.indexes_lines,
                                                m.indexes_time_periods,
                                                rule = upper_bound_flow)
-    
-    def lower_bound_ramping(m,
-                            generating_unit,
-                            time_period):
-        return m.power_generating_units[generating_unit, time_period] - m.power_generating_units[generating_unit, time_period - 1] >= lower_bound_ramping[generating_unit - 1]
+    def lower_bound_ramping_limit(m,
+                                  generating_unit,
+                                  time_period):
+        return m.power_generating_units[generating_unit, time_period] - m.power_generating_units[generating_unit, time_period] >= lower_bound_ramping[generating_unit - 1]
     m.lower_bound_ramping_constraint = pe.Constraint(m.indexes_generating_units,
                                                      m.indexes_time_periods_except_first,
-                                                     rule = lower_bound_ramping)
-    
-# =============================================================================
-#     def upper_bound_ramping(model,
-#                             generating_unit,
-#                             time_period):
-#         return m.power_generating_units[generating_unit, time_period] - m.power_generating_units[generating_unit, time_period - 1] <= upper_bound_ramping[generating_unit - 1]
-#     m.upper_bound_ramping_constraint = pe.Constraint(m.indexes_generating_units,
-#                                                   m.indexes_time_periods_except_first,
-#                                                   rule = upper_bound_ramping)
-# 
-# =============================================================================
+                                                     rule = lower_bound_ramping_limit)
+        
+
+    def upper_bound_ramping_limit(model,
+                            generating_unit,
+                            time_period):
+        return m.power_generating_units[generating_unit, time_period] - m.power_generating_units[generating_unit, time_period - 1] <= upper_bound_ramping[generating_unit - 1]
+    m.upper_bound_ramping_constraint = pe.Constraint(m.indexes_generating_units,
+                                                     m.indexes_time_periods_except_first,
+                                                     rule = upper_bound_ramping_limit)
+
     return m
 
 
