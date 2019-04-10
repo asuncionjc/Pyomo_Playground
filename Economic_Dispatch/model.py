@@ -50,6 +50,17 @@ model.power_generating_units = Var(model.indexes_generating_units,
 model.flow = Var(model.indexes_lines,
                  model.indexes_time_periods)
 
+# Objective function
+
+def total_generating_cost(model):
+    objective_value = sum(sum(model.generating_units_cost[generating_unit]*model.power_generating_units[generating_unit, time_period] for generating_unit in model.indexes_generating_units) for time_period in model.indexes_time_periods)
+    return objective_value
+
+model.OBJ = Objective(rule = total_generating_cost)
+
+# Constraints
+
+
 
 
 
