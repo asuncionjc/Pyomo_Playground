@@ -10,6 +10,8 @@ from pyomo.environ import *
 
 model = AbstractModel()
 
+#Parameters
+
 model.number_of_time_periods = Param(within = NonNegativeIntegers)
 model.number_of_generating_units = Param(within = NonNegativeIntegers)
 model.number_of_nodes = Param(within = NonNegativeIntegers)
@@ -40,6 +42,15 @@ model.lower_bound_ramping = Param(model.indexes_generating_units,
                                   within = NonNegativeReals)
 model.upper_bound_ramping = Param(model.indexes_generating_units,
                                   within = NonNegativeReals)
+
+#Decision variables
+
+model.power_generating_units = Var(model.indexes_generating_units,
+                                   model.indexes_time_periods)
+model.flow = Var(model.indexes_lines,
+                 model.indexes_time_periods)
+
+
 
 
 
