@@ -6,8 +6,7 @@ Created on Tue Apr  9 16:59:09 2019
 """
 
 from __future__ import division
-from pyomo.environ import *
-from pyomo.opt import SolverFactory
+import my_project as mp
 import pyomo.environ as pe
 
 
@@ -16,9 +15,27 @@ import os
 path = 'C:/Users/Asun/Github/Pyomo_Playground/Economic_Dispatch'
 os.chdir(path)
 
-from data import *
+
 from model import *
 from plot_results import *
+
+def run_my_model(config):
+    
+    #Create the results directory
+    results_directory = os.path.join(config['output_files']['results_folder'],
+                                     config['output_files']['folder'])
+    if not os.path.exists(results_directory):
+        os.makedirs(results_directory)
+        
+    #Define the data
+    from data import *
+    data = {}
+    data['number_of_time_periods'] = number_of_time_periods
+    data['number_of_generating_units'] = number_of_generating_units
+    data['number_of_lines'] = number_of_lines
+    instance_my_model = mp.model1(data,
+                                  config)    
+    
 
 model = create_model(number_of_time_periods,
                      number_of_generating_units,
