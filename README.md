@@ -3,7 +3,7 @@
 Playground used to learn and experiment with algebraic language Pyomo. Do you want to learn something about Pyomo? Then, have a look at 
 this repo 🧐.
 
-<img src="https://pyomo.readthedocs.io/en/latest/_images/PyomoNewBlue3.png"/>
+<img src="https://pyomo.readthedocs.io/en/latest/_images/PyomoNewBlue3.png" height="150" width="600"/>
 
 ## Goals
 
@@ -17,7 +17,8 @@ write in the repo, I will be happy to answer you by email at asuncionjc@uma.es �
 
 This table contains all the examples reviewed in this repository.
 
-| # | Topic | Code | 
+| # | Topic | Code |
+| - | ----- | ---- |
 | 1 | Economic Dispatch | [Economic Dispatch](./Economic_Dispatch) |
 
 
@@ -25,7 +26,7 @@ This table contains all the examples reviewed in this repository.
 Developed By
 ------------
 
-* Asunción Jiménez-Cordero - <asuncionjc@us.es>
+* Asunción Jiménez-Cordero - <asuncionjc@uma.es>
 
 <a href="https://www.researchgate.net/profile/Asuncion_Jimenez-Cordero">
   <img alt="Follow me on ResearchGate" src="https://1.bp.blogspot.com/-jz1remm4weY/WK86heRgepI/AAAAAAAACrU/APGaq-EpMakpsh-mZw5eQIyNpA_DN1dBwCLcB/s1600/researchgate_.jpg" height="60" width="60"/>
