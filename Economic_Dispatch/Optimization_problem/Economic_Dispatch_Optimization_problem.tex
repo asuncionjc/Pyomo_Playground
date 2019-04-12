@@ -1,0 +1,54 @@
+\documentclass[a4paper,12pt]{article}
+
+%%%%%%%%%%%%%%%%%%%%%%
+%MY PACKAGES
+%%%%%%%%%%%%%%%%%%%%%%
+
+\usepackage[english,activeacute]{babel}
+\usepackage{amsfonts}
+\usepackage{amsmath}
+
+
+%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%COLORS OF THE CORRECTIONS
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+
+\title{\bf Economic Dispatch Problem}
+\author{Asunci\'on Jim\'enez Cordero}
+    \date{}
+  \maketitle
+  
+  The economic dispatch problem is one of the most used models in energy systems. Particularly, the aim of this problem is to allocate the total demand among generating units so that the production cost is minimized. Specifically, for a given set of $N$ generating units, $i = 1, \ldots, N$, situated in a network with $K$ nodes, $k = 1, \ldots, K$ and $L$ lines, $l = 1, \ldots, L$ and defined over $T$ time periods, $t = 1, \ldots, T$, the optimization problem we want to solve is:
+
+  \begin{equation}\label{eq: unit commitment problem}
+\left\{\begin{array}{lll}
+  \min\limits_{\substack{g_{it},\forall i, \forall t,\\
+  f_{lt}, \forall i, \forall t\\
+  \delta}} &\sum\limits_{t = 1}^T\sum\limits_{i = 1}^N c_ig_{it}&\\
+  \text{s.t.} &g_i^{min}\leq g_{it} \leq g_i^{max}, &\forall i, \forall t\\
+  \\
+  & \sum\limits_{i\in \phi_k} g_{it} = d_{kt} + \sum\limits_{l\in \mathcal{O}_k} f_{lt} - \sum\limits_{l\in \mathcal{E}_k} f_{lt}, &\forall k, \forall t\\
+  \\
+  & -f_{lt}^{max} \leq f_{lt} \leq f_{lt}^{max}, & \forall l, \forall t\\
+  \\
+  & f_{lt} = X_{lt}(\delta_{\mathcal{O}_k} - \delta_{\mathcal{E}_k}), & \forall l, \forall t\\
+  \\
+  & R_i^{down} \leq g_{it} - g_{i\,t-1}\leq R_i^{up}, & \forall i, t = 2, \ldots, T\\
+  \\
+  & g_{it}\geq 0, & \forall i, \forall t\\
+  \end{array}\right.
+  \end{equation}
+  \noindent where $g_{it}$ is the power produced by the generating unit $i$ at the time period $t$, $c_i$ is the cost of producing power in the generating unit $i$, $d_{kt}$ is the power demand of node $k$ at the time instant $t$. The energy flow through the line $l$ at time $t$ is denoted by $f_{lt}$. It is bounded by $f_{lt}^{max}$ and the sign indicates the movement sense of the energy. The values $R_i^{down}$ and $R_i^{up}$ are respectively the minimum and maximum values of the ramp limits. Moreover,
+  \begin{eqnarray*}
+  \phi_k &=& \{i: \text{the generating unit} i \text{gives power to the node } k\}\\
+  \mathcal{O}_k &=& \{l: \text{the origin of the line is at node } k\}\\
+    \mathcal{E}_k &=& \{l: \text{the end of the line is at node } k\}.\\
+  \end{eqnarray*}
+ 
+\end{document}
