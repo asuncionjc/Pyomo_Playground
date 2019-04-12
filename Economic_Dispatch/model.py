@@ -18,7 +18,9 @@ def create_model(number_of_time_periods,
                  upper_bound_power,
                  maximum_flow,
                  lower_bound_ramping,
-                 upper_bound_ramping):
+                 upper_bound_ramping,
+                 origin_node_line_relationship,
+                 end_node_line_relationship):
     m = pe.ConcreteModel()
     
     # Sets
@@ -62,15 +64,16 @@ def create_model(number_of_time_periods,
     m.upper_bound_generating_power_constraint = pe.Constraint(m.indexes_generating_units,
                                                            m.indexes_time_periods,
                                                            rule = upper_bound_generating_power)
-    #def power_balance(m,
-    #                  node,
-    #                  time_period):
-    #    constraint = sum() == demand[node, time_period] + sum() - sum()
-    #    return(constraint)
-    #m.power_balance_constraint = Constraint(m.indexes_nodes,
-    #                                        m.indexes_time_periods,
-    #                                        rule = power_balance)
-
+    def power_balance(m,
+                      node,
+                      time_period):
+        constraint = sum(m.power_generating_units[generating_unit, time_period] for generating_unit in m.indexes_generating_units) == demand[node - 1, time_period - 1] + sum(origin_node_line_relationship[node - 1, line - 1]*m.flow[line, time_period] for line in m.indexes_lines) - sum(end_node_line_relationship[node - 1, line - 1]*m.flow[line, time_period] for line in m.indexes_lines)
+        return(constraint)
+    m.power_balance_constraint = pe.Constraint(m.indexes_nodes,
+                                            m.indexes_time_periods,
+                                            rule = power_balance)
+    
+    
     def lower_bound_flow(m,
                          line,
                          time_period):

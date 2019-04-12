@@ -18,6 +18,7 @@ os.chdir(path)
 
 from data import *
 from model import *
+from plot_results import *
 
 model = create_model(number_of_time_periods,
                      number_of_generating_units,
@@ -29,20 +30,22 @@ model = create_model(number_of_time_periods,
                      upper_bound_power,
                      maximum_flow,
                      lower_bound_ramping,
-                     upper_bound_ramping)
+                     upper_bound_ramping,
+                     origin_node_line_relationship,
+                     end_node_line_relationship)
 #model.pprint()
 solver = SolverFactory("cplex")
 results = solver.solve(model,
-                      tee = True)
+                       tee = True)
 
 results_file = open('results.csv', 'w')
-results_file.write("generating unit, time_period, generation_unit_power" + "\n")
-for generation_unit in model.indexes_generating_units:
+results_file.write("generating unit, time_period, generation_unit_power, flow" + "\n")
+for generating_unit in model.indexes_generating_units:
     for time_period in model.indexes_time_periods:
-        results_file.write(str(generation_unit) + "," + str(time_period) + "\n")
+        results_file.write(str(generating_unit) + "," + str(time_period) + "," + str(model.power_generating_units[generating_unit, time_period].value) + "," + str(model.flow[generating_unit, time_period].value) + "\n")
 
 
-
+plot_results(model)
 
 
 

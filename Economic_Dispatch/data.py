@@ -15,5 +15,15 @@ upper_bound_power = np.array([400, 400, 400])
 maximum_flow = np.array([[200, 200, 200, 200],
                          [200, 200, 200, 200],
                          [200, 200, 200, 200]])
-lower_bound_ramping = np.array([100, 100, 100])
+lower_bound_ramping = np.array([0, 0, 0])
 upper_bound_ramping = np.array([160, 160, 160])
+
+origin_node_line_relationship = np.array([[1, 0, 1],
+                                         [0, 1, 0],
+                                         [0, 0, 0]])
+
+end_node_line_relationship = np.array([[0, 0, 0],
+                                      [1, 0, 0],
+                                      [0, 1, 1]])
+
+
